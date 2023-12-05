@@ -24,6 +24,10 @@ class Linked_List
 		void pop_back();
 		void push_front(const T&);
 		void pop_front();
+		void insert(size_t,const T&);
+		void erase (size_t);
+		void clear ();
+		void assign(size_t,const T&);
 		void print_list();
 		int size();
 		bool empty();
