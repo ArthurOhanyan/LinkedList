@@ -177,11 +177,121 @@ void Linked_List<T>::erase(size_t index)
 template <typename T>
 void Linked_List<T>::assign (size_t count, const T& val)
 {
+	clear();
+
 	if (!head){
 		
+		head = new Node(val);
+		++m_size;
+		Node* tmp = head;
+		int x = 1;
+		while (x < count){
+			
+			Node* tmp2 = new Node(val);
+			tmp -> next = tmp2;
+			tmp = tmp2;
+			++x;
+			++m_size;
+		}
+	       
+	} 
+}
 
-		 
+template <typename T>
+void Linked_List<T>::resize(size_t new_size)
+{
+	if (!head){
+	
+		head = new Node(0);
+		++m_size;
+		Node* tmp = head;
+		int x = 1;
+		while (x < new_size){
+			
+			Node* tmp2 = new Node(0);
+			tmp -> next = tmp2;
+			tmp = tmp2;
+			++x;
+			++m_size;
+		}
+
+	} else if (new_size > m_size){
+		
+		/*
+		 * Node* tmp = head;
+		while (tmp -> next){
+		
+			tmp = tmp -> next;
+		}
+
+		int x = 0;
+		int y = new_size - m_size;
+		while (x < y){
+		
+			Node* tmp2 = new Node(0);
+			tmp -> next = tmp2;
+			tmp = tmp2;
+			++x;
+			++m_size;
+		} */
+		int x = 0;
+		int y = new_size - m_size;
+		while (x < y){
+			
+			push_back(0);
+			++x;
+		}
+
+	} else if (new_size < m_size) {
+	
+		int x = 0;
+		int y = m_size - new_size;
+		while (x < y){
+			
+			pop_back();
+			++x;
+		}
+		
 	}
+}
+
+template <typename T>
+void Linked_List<T>::swap(Linked_List<T>& other)
+{
+	if (head != other.head){
+		
+		Node* tmp = other.head;
+		other.head = head;
+		head = tmp;
+		int tmp_size = m_size;
+		m_size = other.size();
+		other.m_size = tmp_size;
+
+	}
+}
+
+template <typename T>
+void Linked_List<T>::reverse() 
+{
+	if (!head){
+		
+		std::cout << " reverse () :: nullptr " << std::endl;
+		exit (0);
+	} 
+	
+	Node* tmp = nullptr;
+	Node* prev = nullptr;
+	Node* current = head;
+	while (current) {
+		
+		tmp = current -> next;
+		current -> next = prev;
+		prev = current;
+		current = tmp;
+	}
+
+	head = prev;
+
 }
 
 template <typename T>

@@ -28,6 +28,9 @@ class Linked_List
 		void erase (size_t);
 		void clear ();
 		void assign(size_t,const T&);
+		void resize (size_t);
+		void swap (Linked_List<T>&);
+		void reverse ();
 		void print_list();
 		int size();
 		bool empty();
