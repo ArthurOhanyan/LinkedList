@@ -1,6 +1,12 @@
 #include <iostream>
 
 template <typename T>
+std::ostream& operator << (std::ostream& os, Linked_List<T>& list)
+{
+	return list.operator<<(os);
+}
+
+template <typename T>
 Linked_List<T>::Linked_List()
 {
 	head = nullptr;
