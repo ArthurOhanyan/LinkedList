@@ -80,7 +80,6 @@ void Linked_List<T>::push_front(const T& val)
 	if (!head){
 		
 		push_back(val);
-		++m_size;
 
 	} else {
 	
@@ -113,7 +112,7 @@ void Linked_List<T>::pop_front()
 
 }
 
-template <typename T>
+/*template <typename T>
 void Linked_List<T>::insert (size_t index, const T& val)
 {
 	if (!head){
@@ -127,6 +126,7 @@ void Linked_List<T>::insert (size_t index, const T& val)
 		exit(1);
 	} 
 
+	
 	if (index == 0){
 	
 		push_front(val);
@@ -148,10 +148,48 @@ void Linked_List<T>::insert (size_t index, const T& val)
 		tmp = nullptr;
 		++m_size;
 	}
-
-}
+}*/
 
 template <typename T>
+void Linked_List<T>::insert (Linked_List<T>::Iterator it, const T& val)
+{
+
+	if (!head){
+		
+		std::cout << " insert () :: nullptr :: " << std::endl;
+		exit(1);
+	}
+	
+
+	
+	if (it == Linked_List<T>::Iterator(head)){
+	
+		push_front(val);
+		++m_size;
+
+	} else {
+
+		 Iterator tmp = Linked_List<T>::Iterator(head);
+		 Iterator cur = Linked_List<T>::Iterator(head);
+		while (tmp != it){
+		
+			++tmp;
+			if (tmp != it){
+				
+				++cur;
+			}	
+		}
+
+
+		Node* tmp2 = new Node(val);
+		tmp2 -> next = tmp.ptr;
+		cur.ptr -> next = tmp2;
+		//tmp = nullptr;
+		++m_size;
+	}
+}
+
+/*template <typename T>
 void Linked_List<T>::erase(size_t index)
 {
 	if (!head){
@@ -177,6 +215,44 @@ void Linked_List<T>::erase(size_t index)
 	Node* tmp2 = tmp -> next -> next;
 	delete tmp -> next;
 	tmp -> next = tmp2;
+	--m_size;
+}*/
+
+template <typename T>
+void Linked_List<T>::erase(Linked_List<T>::Iterator it)
+{
+	if (!head){
+		
+		std::cout << " erase () :: nullptr ::" << std::endl;
+		exit(1);
+
+	} else if (!it.ptr){
+	
+		std::cout << " erase () :: invalid index " << std::endl;
+		exit(1);
+	} 
+	
+	
+	Iterator tmp = Linked_List<T>::Iterator(head);
+	Iterator cur = Linked_List<T>::Iterator(head);
+
+	if (tmp.ptr == head){
+	
+		this -> pop_front();
+		return;
+	}
+	while (tmp != it){
+			
+		++tmp;
+		if(tmp != it){
+		
+			++cur;
+		}
+		
+	}
+	
+	cur.ptr -> next = tmp.ptr -> next;
+	delete tmp.ptr;
 	--m_size;
 }
 
@@ -298,6 +374,85 @@ void Linked_List<T>::reverse()
 
 	head = prev;
 
+}
+
+template <typename T>
+void Linked_List<T>::sort()
+{
+	
+	if (!head){
+		
+		std::cout << " sort() :: nullptr " << std::endl;
+	        exit(1);
+
+	} 
+
+	
+	Node* prev = head;
+	Node* curent = head -> next;
+
+	while (curent){
+	
+		if (curent -> m_val < prev -> m_val){
+			
+			prev -> next = curent -> next;
+			curent -> next = head;
+			head = curent;
+			curent = prev;
+		} else {
+			
+			prev = curent;
+			curent = curent -> next;
+		}
+
+
+	}	
+
+}
+
+template <typename T>
+void Linked_List<T>::marge (const Linked_List<T>& other)
+{
+	Node	*tmp1 = this->head;
+	Node	*tmp2 = other.head;
+	Node	*curr;
+
+	if (!other.head)
+		return ;
+	if (tmp1 && tmp2)
+	{
+		if (tmp2->m_val <= tmp1->m_val)
+		{
+			this->head = tmp2;
+			tmp2 = tmp2->next;
+		}
+	}
+	curr = this->head;
+	while (tmp1 && tmp2)
+	{
+		if (tmp1->m_val <= tmp2->m_val)
+		{
+			curr->next = tmp1;
+			tmp1 = tmp1->next;
+		}
+		else
+		{
+			curr->next = tmp2;
+			tmp2 = tmp2->next;
+		}
+		curr = curr->next;
+	}
+	if (tmp1)
+		curr->next = tmp1;
+	else if (tmp2)
+	{
+		curr->next = tmp2;
+		//this->tail = other.tail;
+	}
+	//other.head = nullptr;
+	//other.tail = nullptr;
+	//other.m_size = 0;
+	
 }
 
 template <typename T>
